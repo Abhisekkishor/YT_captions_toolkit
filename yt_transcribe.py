@@ -10,29 +10,29 @@ try:
     print(full_text)
 
 except NoTranscriptFound:
-import whisper
-import yt_dlp
+    import whisper
+    import yt_dlp
 
-def download_audio(video_id):
-    url = f"https://www.youtube.com/watch?v={video_id}"
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': f'{video_id}.mp3',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-        }],
-        'quiet': True
-    }
+    def download_audio(video_id):
+        url = f"https://www.youtube.com/watch?v={video_id}"
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'outtmpl': f'{video_id}.mp3',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+            }],
+            'quiet': True
+        }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
 
-def transcribe_with_whisper(video_id):
-    model = whisper.load_model("base")
-    result = model.transcribe(f"{video_id}.mp3")
-    print("Transcript from Whisper:")
-    print(result['text'])
+    def transcribe_with_whisper(video_id):
+        model = whisper.load_model("base")
+        result = model.transcribe(f"{video_id}.mp3")
+        print("Transcript from Whisper:")
+        print(result['text'])
 
-download_audio(vid)
-transcribe_with_whisper(vid)
+    download_audio(vid)
+    transcribe_with_whisper(vid)
