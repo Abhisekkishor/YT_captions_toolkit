@@ -1,4 +1,4 @@
-from youtube_transcript_api import YouTubeTranscriptApi, NoTranscriptFound
+from youtube_transcript_api import YouTubeTranscriptApi
 import sys
 
 vid = sys.argv[1]
@@ -9,7 +9,9 @@ try:
     print("Transcript from API:")
     print(full_text)
 
-except NoTranscriptFound:
+except Exception as e:
+    print(f"Transcript from API not available. Reason: {str(e)}")
+
     import whisper
     import yt_dlp
 
