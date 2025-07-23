@@ -37,12 +37,22 @@ except Exception as e:
             raise FileNotFoundError(f"❌ Audio file '{filename}' not found.")
         return filename
 
-    def transcribe_with_whisper(audio_file):
+    def transcribe_with_whisper(audio_path, video_id):
         print("🧠 Transcribing with Whisper...")
         model = whisper.load_model("base")
-        result = model.transcribe(audio_file)
+        result = model.transcribe(audio_path)
+        transcript_text = result['text']
+        
+        # Print in console
         print("Transcript from Whisper:")
-        print(result['text'])
+        print(transcript_text)
 
-    audio_path = download_audio(vid)
-    transcribe_with_whisper(audio_path)
+        # Save to file
+        txt_filename = f"{video_id}_transcript.txt"
+        with open(txt_filename, "w", encoding="utf-8") as f:
+            f.write(transcript_text)
+        
+        print(f"\n✅ Transcript saved to: {txt_filename}")
+
+    audio_file = download_audio(vid)
+    transcribe_with_whisper(audio_file, vid)
